@@ -1,15 +1,11 @@
-import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-const onFinish = (values) => {
-  console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-const PasswordPage = () => (
-  <div style={{ height: 'calc(100vh - 151px' }}>
+import React, { useRef, forwardRef } from 'react';
+import { Form, Input, Modal } from 'antd';
+
+const PasswordPage = forwardRef(({ onSubmit, onFail }, ref) => (
+  <div>
     <Form
-      name="basic"
+      ref={ref}
+      name="changePassword"
       labelCol={{
         span: 6,
       }}
@@ -22,8 +18,8 @@ const PasswordPage = () => (
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      onFinish={onSubmit}
+      onFinishFailed={onFail}
       autoComplete="off"
     >
       <Form.Item
@@ -64,19 +60,42 @@ const PasswordPage = () => (
       >
         <Input.Password />
       </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 14,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
     </Form>
   </div>
+));
 
-);
-export default PasswordPage;
+const PasswordModal = ({ visible, onClose }) => {
+  const formRef = useRef(null);
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+    onClose();
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const handleOk = () => {
+    if (formRef.current) {
+      formRef.current.submit(); // 提交表单
+    }
+  };
+  return (
+    <Modal
+      title="變更密碼"
+      open={visible}
+      onOk={handleOk}
+      onCancel={onClose}
+      maskClosable={false}
+      closable={false}
+      okText={'送出'}
+      cancelText={'取消'}
+      style={{ height: 500 }}>
+      <PasswordPage ref={formRef} onSubmit={onFinish} onFail={onFinishFailed} />
+    </Modal>
+  );
+};
+
+
+export default PasswordModal;

@@ -3,6 +3,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Table, Upload, Button } from 'antd';
 
 class Manage extends React.PureComponent {
+  componentDidMount = () => {
+
+  };
+
   columns = [
     {
       title: '名稱',
@@ -44,7 +48,7 @@ class Manage extends React.PureComponent {
   ];
   render () {
     return (
-      <React.Fragment>
+      <div style={{ margin: 10 }}>
         <div>
           <Upload>
             <Button icon={<UploadOutlined />}>上傳新車單</Button>
@@ -57,13 +61,13 @@ class Manage extends React.PureComponent {
           <h3>使用者列表</h3>
           <Table
             columns={this.columns}
-            style={{ height: 'calc(100vh - 270px)' }}
+            style={{ height: 'calc(100vh - 265px)' }}
           >
 
           </Table>
         </div>
 
-      </React.Fragment>
+      </div>
 
     );
   }
