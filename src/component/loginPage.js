@@ -11,7 +11,6 @@ const onFinish = async (values) => {
   const { nick, cell, email } = values;
   const uuid = uuidv4();
   const result = await userUnTokenLogin(uuid, cell, email, nick);
-  console.log(result);
   if (result['status'] >= 0) {
     setToken(result['data']);
     setUUid(uuid);
@@ -28,17 +27,11 @@ const onFinish = async (values) => {
   }
 };
 
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [hasUUID, setUUID] = useState('');
-  const dialogRef = useRef();
 
   useEffect(() => {
-    console.log('88');
     fetchLogin();
   }, []);
 
@@ -89,7 +82,6 @@ const LoginPage = () => {
               remember: true,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             className='login-form'
           >

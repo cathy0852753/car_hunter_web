@@ -4,7 +4,7 @@ import axios from "axios";
 const domaim = "http://0316.gotdns.tw:35000";
 const baseUrl = `${domaim}/api`;
 
-export const userLogin = (uuid, token) => {
+export const userLogin = async (uuid, token) => {
   const url = `${baseUrl}/users/${uuid}?auth=${token}`;
   return axios.get(url).then(res => res.data);
 };
@@ -39,7 +39,6 @@ export const uploadFile = async (token, file) => {
   const config = {
     headers: { 'Content-Type': 'multipart/form-data"' },
   };
-  console.log(file);
   const formData = new FormData();
   formData.append("file", file);
   return axios.post(url, formData, config).then(res => res.data);

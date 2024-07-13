@@ -21,37 +21,43 @@ class Manage extends React.PureComponent {
   };
 
   fetchData = async () => {
-    const token = getToken();
-    const result = await getUserData(token);
-    if (result['status'] > 0) {
-      this.setState({
-        data: result['data'],
-        token
-      });
-    } else if (result['status'] < 0) {
-      this.setState({
-        error: true
-      });
-      Modal.error({
-        content: (
-          <div>
-            <span>{result['data']}</span>
-          </div>
-        ),
-        onOk () {
-          if (errorType.includes(result['status'])) {
-            setToken('');
-            setUUid('');
-          } else {
-            if (!warnType.includes(result['status'])) {
-              window.location.href = '/';
+    try {
+      const token = getToken();
+      const result = await getUserData(token);
+      if (result['status'] > 0) {
+        this.setState({
+          data: result['data'],
+          token
+        });
+      } else if (result['status'] < 0) {
+        this.setState({
+          error: true
+        });
+        Modal.error({
+          content: (
+            <div>
+              <span>{result['data']}</span>
+            </div>
+          ),
+          onOk () {
+            if (errorType.includes(result['status'])) {
+              setToken('');
+              setUUid('');
+            } else {
+              if (!warnType.includes(result['status'])) {
+                window.location.href = '/';
+              }
             }
-          }
-        },
-      });
-    } else {
+          },
+        });
+      } else {
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.log(error);
       window.location.href = '/';
     }
+
 
   };
 
@@ -80,7 +86,6 @@ class Manage extends React.PureComponent {
       return false;
     } else {
       message.warning(result['data']);
-      console.log('err', result['data']);
       this.setState({ isLoading: false });
     }
     return false;
@@ -95,7 +100,6 @@ class Manage extends React.PureComponent {
       this.fetchData();
     } else {
       message.warning(result['data']);
-      console.log('err', result['data']);
     }
     this.setState({ isLoading: false });
   };
@@ -166,7 +170,6 @@ class Manage extends React.PureComponent {
   ];
   render () {
     const { data, isLoading, count, error } = this.state;
-    console.log(error);
     return (
       <React.Fragment>
         <Spin spinning={isLoading} size="large" tip="更新檔案中...">
