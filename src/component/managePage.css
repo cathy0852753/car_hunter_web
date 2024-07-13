@@ -1,0 +1,16 @@
+.grid-div {
+  width: 300px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 5px 5px 10px lightgray;
+}
+
+.user-lists {
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  box-shadow: 5px 5px 10px lightgray;
+  margin: 10px;
+  padding: 10px 24px;
+}
