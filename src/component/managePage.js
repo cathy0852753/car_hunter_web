@@ -4,7 +4,7 @@ import { Table, Upload, Button, message, Spin, Modal } from 'antd';
 import { saveAs } from 'file-saver';
 
 import { getBingoData, getUserData, uploadFile, setUserAuth } from '../resource';
-import { getToken, setToken, setUUid } from './localStorage';
+import { getToken, removeLocalStorage } from './localStorage';
 import { errorType, warnType } from '../common/common';
 import './managePage.css';
 
@@ -41,8 +41,8 @@ class Manage extends React.PureComponent {
           ),
           onOk () {
             if (errorType.includes(result['status'])) {
-              setToken('');
-              setUUid('');
+              removeLocalStorage('token');
+              removeLocalStorage('uuid');
             } else {
               if (!warnType.includes(result['status'])) {
                 window.location.href = '/';

@@ -3,7 +3,7 @@ import { Button, Form, Input, message, Space, Modal } from 'antd';
 import { userLogin, userUnTokenLogin, getUserData } from '../resource';
 import { v4 as uuidv4 } from 'uuid';
 import hunterCarImg from '../assets/hunter_car.jpg';
-import { getToken, getUUid, setToken, setUUid } from './localStorage';
+import { getToken, getUUid, removeLocalStorage, setToken, setUUid } from './localStorage';
 import { errorType } from '../common/common';
 import './loginPage.css';
 
@@ -54,8 +54,8 @@ const LoginPage = () => {
           ),
           onOk () {
             if (errorType.includes(result['status'])) {
-              setToken('');
-              setUUid('');
+              removeLocalStorage('token');
+              removeLocalStorage('uuid');
             } else {
               setUUID(uuid);
             }
