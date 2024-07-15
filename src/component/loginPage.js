@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, message, Space, Modal } from 'antd';
-import { userLogin, userUnTokenLogin, getUserData } from '../resource';
+import { userLogin, userUnTokenLogin } from '../resource';
 import { v4 as uuidv4 } from 'uuid';
 import hunterCarImg from '../assets/hunter_car.jpg';
 import { getToken, getUUid, removeLocalStorage, setToken, setUUid } from './localStorage';

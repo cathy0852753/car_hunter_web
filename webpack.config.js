@@ -1,15 +1,27 @@
+const webpack = require("webpack");
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    main: path.resolve(__dirname, "src/index.js"),
+  },
+  mode: 'production',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
+    library: {
+      type: "umd",
+    },
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -18,12 +30,23 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-  devtool: 'source-map',
+
+  // devtool: 'source-map',
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
@@ -31,16 +54,9 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     setupMiddlewares: (middlewares, devServer) => {
-      // 在此处添加自定义中间件
       if (!devServer) {
         throw new Error('webpack-dev-server is not defined');
       }
-
-      // 添加自定义中间件
-      // devServer.app.use((req, res, next) => {
-      //   // your custom middleware logic
-      //   next();
-      // });
 
       return middlewares;
     },
